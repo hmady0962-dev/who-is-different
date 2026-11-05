@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>من المختلف؟</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;900&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--ink:#07102a;--panel:#0c1a3e;--line:#1c4fa3;--blue:#2aa0ff;--red:#ff3355;--gold:#ffcf26;--paper:#fff4e0;--ok:#3ddc84;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font-family:Cairo,Tahoma,sans-serif;color:#fff;
+background:radial-gradient(ellipse at 50% 100%,#1d4a2a 0,transparent 55%),linear-gradient(#0b1a3a,#0a1b2c 55%,#0f2a1c);}
+.wrap{max-width:1200px;margin:0 auto;padding:14px 14px 24px}
+.top{direction:ltr;display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start}
+.pl{display:flex;align-items:center;gap:10px;background:rgba(7,16,42,.7);border-radius:60px;padding:6px;border:1px solid #13306a}
+.pl.p2{flex-direction:row-reverse;justify-self:end}
+.pl.p1{justify-self:start}
+.av{width:64px;height:64px;border-radius:50%;overflow:hidden;border:4px solid var(--blue);flex:none;background:#fff4e0}
+.p2 .av{border-color:var(--red)}
+.av svg{width:100%;height:100%;display:block}
+.pn{direction:rtl;padding:0 8px;font-weight:700;font-size:15px}
+.sc{display:inline-flex;gap:6px;align-items:center;margin-top:2px;padding:2px 14px;border-radius:20px;background:#0f3b7a;border:1px solid var(--blue);font-weight:900;font-size:22px}
+.p2 .sc{background:#7a1228;border-color:var(--red)}
+.mid{text-align:center}
+h1{font-family:Lalezar,Cairo,sans-serif;font-weight:400;margin:0;font-size:clamp(34px,6vw,58px);line-height:1.1;color:var(--gold);-webkit-text-stroke:6px #0a2a6b;paint-order:stroke fill}
+.sub{margin:2px 0 8px;font-size:14px;opacity:.9;min-height:22px}
+.bar{display:inline-flex;gap:18px;align-items:center;background:rgba(7,16,42,.8);border:2px solid var(--line);border-radius:40px;padding:6px 22px;font-weight:700;font-size:20px}
+.bar .t{font-variant-numeric:tabular-nums}.bar .t.low{color:var(--red)}
+.cards{direction:ltr;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.cell{display:flex;flex-direction:column;gap:8px}
+.card{aspect-ratio:1/1.05;border-radius:14px;overflow:hidden;border:3px solid #050b1e;background:#fff;transition:box-shadow .2s,transform .2s}
+.card svg{width:100%;height:100%;display:block}
+.card.hit{box-shadow:0 0 0 4px var(--ok),0 0 28px var(--ok);transform:scale(1.03)}
+.card.miss{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.btns{display:flex;gap:6px;direction:rtl}
+.btns button{flex:1;font:700 16px Cairo,Tahoma,sans-serif;color:#fff;background:var(--ink);border:2px solid var(--blue);border-radius:30px;padding:8px 4px;cursor:pointer;touch-action:manipulation}
+.btns button.r{border-color:var(--red)}
+.btns button:hover:not(:disabled){background:#10306b}.btns button.r:hover:not(:disabled){background:#5c1022}
+.btns button:disabled{opacity:.35;cursor:default}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.foot{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:12px;margin-top:20px}
+.box{background:rgba(7,16,42,.82);border:2px solid #13306a;border-radius:18px;padding:12px 16px}
+.box h2{margin:0 0 6px;font-size:18px;color:var(--gold)}
+.box ul{margin:0;padding:0 18px 0 0;font-size:14px;line-height:1.8}
+.rounds{display:flex;gap:10px;justify-content:center;direction:ltr;margin-top:6px}
+.rd{width:54px;text-align:center;font-weight:700}
+.rd i{display:block;width:54px;height:54px;border-radius:12px;border:3px solid #26427e;overflow:hidden;background:#0c1a3e;font:900 22px/48px Cairo;font-style:normal;color:#5b78b5}
+.rd i svg{width:100%;height:100%;display:block}
+.rd.cur i{border-color:var(--gold)}.rd.w1 i{border-color:var(--blue)}.rd.w2 i{border-color:var(--red)}.rd.w0 i{border-color:#777}
+.win{text-align:center}.win p{margin:4px 0 0;font-size:15px;line-height:1.7}
+.ov{position:fixed;inset:0;background:rgba(5,10,28,.88);display:flex;align-items:center;justify-content:center;padding:20px;z-index:5}
+.ov.off{display:none}
+.dlg{background:var(--panel);border:3px solid var(--line);border-radius:24px;padding:26px;max-width:460px;text-align:center}
+.dlg h2{font-family:Lalezar,Cairo;font-weight:400;font-size:40px;margin:0 0 8px;color:var(--gold)}
+.dlg p{margin:0 0 18px;line-height:1.8}
+.go{font:900 20px Cairo,Tahoma,sans-serif;color:#1a1200;background:var(--gold);border:0;border-radius:40px;padding:12px 40px;cursor:pointer}
+@media(max-width:820px){.foot{grid-template-columns:1fr}.top{grid-template-columns:1fr 1fr}.mid{grid-column:1/-1;grid-row:1}.av{width:48px;height:48px}.pn{font-size:13px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="pl p1"><div class="av" id="av1"></div><div class="pn">اللاعب 1<br><span class="sc">★ <span id="s1">0</span></span></div></div>
+    <div class="mid">
+      <h1>من المختلف؟</h1>
+      <div class="sub" id="msg">اختر الصورة المختلفة قبل خصمك!</div>
+      <div class="bar"><span id="rl">الجولة 1 / 5</span><span class="t" id="tm">00:20</span></div>
+    </div>
+    <div class="pl p2"><div class="av" id="av2"></div><div class="pn">اللاعب 2<br><span class="sc">★ <span id="s2">0</span></span></div></div>
+  </div>
+
+  <div class="cards" id="cards"></div>
+
+  <div class="foot">
+    <div class="box"><h2>🏆 قواعد اللعبة</h2>
+      <ul>
+        <li>يوجد 5 صور في كل جولة.</li>
+        <li>صورة واحدة فقط مختلفة.</li>
+        <li>اضغط على الصورة المختلفة أولاً.</li>
+        <li>الاختيار الخاطئ يوقفك في هذه الجولة.</li>
+        <li>الكيبورد: اللاعب 1 بالأرقام 1–5، واللاعب 2 بالأرقام 6 7 8 9 0</li>
+      </ul></div>
+    <div class="box"><h2 style="text-align:center">الجولات</h2><div class="rounds" id="rounds"></div></div>
+    <div class="box win"><h2>👑 الفائز</h2><p>من يصل إلى 3 نقاط أولاً<br>يفوز بالمباراة!</p></div>
+  </div>
+</div>
+
+<div class="ov" id="ov"><div class="dlg"><h2 id="ot">من المختلف؟</h2><p id="op">لاعبان على نفس الجهاز. في كل جولة 5 وجوه متشابهة وواحد منها مختلف. أسرع من يضغط على المختلف يأخذ النقطة، وأول من يصل إلى 3 نقاط يفوز.</p><button class="go" id="go">ابدأ اللعبة</button></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const rnd=n=>Math.floor(Math.random()*n);
+const BODY=['#f6c9a0','#d9a273','#b57b52','#9be88c','#8fd3ff'];
+const BG=[['#ffe066','#f08a00'],['#7fe3ff','#1f6fe0'],['#ff9ec7','#d63384'],['#a6f08c','#1f9e4a'],['#c7a6ff','#5a35d6']];
+const OPT={ears:3,eyes:3,mouth:3,brows:2,acc:4};
+
+function draw(a,bgi,body){
+  const [c1,c2]=BG[bgi%BG.length],id='g'+Math.random().toString(36).slice(2,7);
+  const K='#0d0d1a',st=`stroke="${K}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"`;
+  let s=`<svg viewBox="0 0 100 105" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="${id}" cx=".5" cy=".55" r=".75"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></radialGradient></defs><rect width="100" height="105" fill="url(#${id})"/>`;
+  for(let i=0;i<14;i++){const t=i*Math.PI/7,u=t+Math.PI/14;s+=`<polygon points="50,58 ${50+90*Math.cos(t)},${58+90*Math.sin(t)} ${50+90*Math.cos(u)},${58+90*Math.sin(u)}" fill="#fff" opacity=".14"/>`}
+  // jacket + chest emblem
+  s+=`<path d="M10 106 Q12 80 36 77 L64 77 Q88 80 90 106Z" fill="#1d2433" ${st}/><path d="M36 77 L42 106 M64 77 L58 106" stroke="#39ff6a" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  s+=`<circle cx="50" cy="94" r="8" fill="#39ff6a" ${st}/><polygon points="52,87 45,95 49,95 47,101 55,92 51,92" fill="${K}"/>`;
+  s+=`<rect x="42" y="68" width="16" height="12" fill="${body}" ${st}/>`;
+  // ears + head
+  s+=`<circle cx="19" cy="58" r="6" fill="${body}" ${st}/><circle cx="81" cy="58" r="6" fill="${body}" ${st}/>`;
+  s+=`<ellipse cx="50" cy="55" rx="31" ry="29" fill="${body}" ${st}/><path d="M24 62 Q50 92 76 62 Q70 80 50 84 Q30 80 24 62Z" fill="#000" opacity=".08"/>`;
+  // hair (ears attr)
+  const H='#3a2414';
+  if(a.ears==0)s+=`<path d="M20 50 Q18 36 23 30 L19 14 L33 24 L37 5 L48 22 L57 3 L63 22 L76 10 L76 29 Q82 38 80 50 Q66 36 50 40 Q34 36 20 50Z" fill="${H}" ${st}/>`;
+  if(a.ears==1)s+=`<path d="M20 50 Q16 20 50 18 Q84 20 80 50 Q72 33 52 35 Q36 35 28 47 Q24 44 20 50Z" fill="${H}" ${st}/><path d="M52 35 Q66 24 78 36" stroke="#fff" stroke-width="2" fill="none" opacity=".35"/>`;
+  if(a.ears==2)s+=`<path d="M43 30 L38 6 L48 17 L52 1 L58 17 L66 6 L58 31Z" fill="#ff7a1a" ${st}/>`;
+  // accessories behind eyes
+  if(a.acc==1)s+=`<path d="M20 45 Q50 33 80 45 L80 52 Q50 40 20 52Z" fill="#e63946" ${st}/><path d="M80 47 L92 44 M80 50 L91 55" stroke="#e63946" stroke-width="4" stroke-linecap="round"/>`;
+  if(a.acc==2)s+=`<path d="M20 40 Q50 30 80 40" stroke="${K}" stroke-width="5" fill="none"/><circle cx="36" cy="36" r="9" fill="#ffd23f" ${st}/><circle cx="64" cy="36" r="9" fill="#ffd23f" ${st}/><circle cx="33" cy="33" r="3" fill="#fff" opacity=".8"/><circle cx="61" cy="33" r="3" fill="#fff" opacity=".8"/>`;
+  // eyes
+  if(a.eyes==0)s+=`<ellipse cx="38" cy="57" rx="7.5" ry="9.5" fill="#fff" ${st}/><ellipse cx="62" cy="57" rx="7.5" ry="9.5" fill="#fff" ${st}/><circle cx="39" cy="58" r="5" fill="#16a34a"/><circle cx="61" cy="58" r="5" fill="#16a34a"/><circle cx="39" cy="58" r="2.4" fill="${K}"/><circle cx="61" cy="58" r="2.4" fill="${K}"/><circle cx="41" cy="55" r="1.8" fill="#fff"/><circle cx="63" cy="55" r="1.8" fill="#fff"/>`;
+  if(a.eyes==1)s+=`<circle cx="37" cy="57" r="10" fill="#fff" ${st}/><circle cx="63" cy="57" r="10" fill="#fff" ${st}/><circle cx="38" cy="58" r="2.6" fill="${K}"/><circle cx="62" cy="58" r="2.6" fill="${K}"/>`;
+  if(a.eyes==2)s+=`<path d="M29 59 Q38 48 47 59 M53 59 Q62 48 71 59" stroke="${K}" stroke-width="3.4" fill="none" stroke-linecap="round"/>`;
+  // brows
+  if(a.brows==0)s+=`<path d="M29 45 Q38 40 46 44 M54 44 Q62 40 71 45" stroke="${K}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  if(a.brows==1)s+=`<path d="M28 41 L47 49 M72 41 L53 49" stroke="${K}" stroke-width="4.5" stroke-linecap="round"/>`;
+  s+=`<path d="M50 62 q3 4 -1 6" stroke="${K}" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>`;
+  // mouth
+  if(a.mouth==0)s+=`<path d="M38 71 Q50 87 62 71Z" fill="#fff" ${st}/><path d="M38 71 L62 71" stroke="${K}" stroke-width="2"/>`;
+  if(a.mouth==1)s+=`<path d="M40 76 Q50 79 62 70" stroke="${K}" stroke-width="3.2" fill="none" stroke-linecap="round"/>`;
+  if(a.mouth==2)s+=`<ellipse cx="50" cy="77" rx="9" ry="8" fill="#b3203a" ${st}/><ellipse cx="50" cy="81" rx="5" ry="3" fill="#ff7b8f"/>`;
+  if(a.acc==3)s+=`<rect x="64" y="64" width="15" height="7" rx="2.5" fill="#ffcf8a" ${st} transform="rotate(-28 71 67)"/>`;
+  return s+'</svg>';
+}
+
+const S={sc:[0,0],round:0,lock:[0,0],open:false,t:20,iv:null,odd:0,res:[],bases:[],ended:false};
+const MAX=5,WIN=3;
+
+$('av1').innerHTML=draw({ears:0,eyes:0,mouth:0,brows:0,acc:0},1,BODY[3]);
+$('av2').innerHTML=draw({ears:1,eyes:1,mouth:2,brows:1,acc:2},2,BODY[0]);
+
+function renderRounds(){
+  $('rounds').innerHTML=Array.from({length:MAX},(_,i)=>{
+    const r=S.res[i],cls=r===undefined?(i===S.round?'cur':''):'w'+r;
+    const inner=S.bases[i]&&r!==undefined?S.bases[i]:'?';
+    return `<div class="rd ${cls}"><i>${inner}</i>${i+1}</div>`}).join('');
+}
+function fmt(n){return '00:'+String(n).padStart(2,'0')}
+function say(t){$('msg').textContent=t}
+
+function newRound(){
+  S.lock=[0,0];S.open=true;S.t=20;
+  const base={ears:rnd(3),eyes:rnd(3),mouth:rnd(3),brows:rnd(2),acc:rnd(4)};
+  const keys=Object.keys(OPT),k=keys[rnd(keys.length)];
+  const odd={...base};do{odd[k]=rnd(OPT[k])}while(odd[k]===base[k]);
+  const bg=S.round,body=BODY[rnd(BODY.length)];
+  S.odd=rnd(5);
+  S.bases[S.round]=draw(base,bg,body);
+  $('cards').innerHTML=Array.from({length:5},(_,i)=>`<div class="cell"><div class="card" id="c${i}">${draw(i===S.odd?odd:base,bg,body)}</div><div class="btns"><button data-p="0" data-i="${i}">المختلف</button><button class="r" data-p="1" data-i="${i}">المختلف</button></div></div>`).join('');
+  $('rl').textContent=`الجولة ${S.round+1} / ${MAX}`;
+  $('tm').textContent=fmt(20);$('tm').classList.remove('low');
+  say('اختر الصورة المختلفة قبل خصمك!');
+  renderRounds();
+  clearInterval(S.iv);
+  S.iv=setInterval(()=>{S.t--;$('tm').textContent=fmt(Math.max(S.t,0));$('tm').classList.toggle('low',S.t<=5);if(S.t<=0)finish(-1)},1000);
+}
+
+function pick(p,i){
+  if(!S.open||S.lock[p])return;
+  if(i===S.odd){finish(p)}
+  else{
+    S.lock[p]=1;
+    const c=$('c'+i);c.classList.remove('miss');void c.offsetWidth;c.classList.add('miss');
+    document.querySelectorAll(`.btns button[data-p="${p}"]`).forEach(b=>b.disabled=true);
+    say(`اللاعب ${p+1} أخطأ! ينتظر نهاية الجولة`);
+    if(S.lock[0]&&S.lock[1])finish(-1);
+  }
+}
+
+function finish(p){
+  if(!S.open)return;
+  S.open=false;clearInterval(S.iv);
+  $('c'+S.odd).classList.add('hit');
+  document.querySelectorAll('.btns button').forEach(b=>b.disabled=true);
+  if(p>=0){S.sc[p]++;$('s'+(p+1)).textContent=S.sc[p];say(`اللاعب ${p+1} حصل على النقطة!`)}
+  else say('لا أحد وجد المختلف في هذه الجولة');
+  S.res[S.round]=p>=0?p+1:0;
+  renderRounds();
+  setTimeout(()=>{
+    S.round++;
+    const over=S.sc[0]>=WIN||S.sc[1]>=WIN||S.round>=MAX;
+    if(over)end();else newRound();
+  },1700);
+}
+
+function end(){
+  S.ended=true;
+  const [a,b]=S.sc;
+  $('ot').textContent=a===b?'تعادل!':`اللاعب ${a>b?1:2} يفوز! 👑`;
+  $('op').textContent=`النتيجة النهائية: ${a} - ${b}`;
+  $('go').textContent='العب مرة أخرى';
+  $('ov').classList.remove('off');
+}
+
+function start(){
+  S.sc=[0,0];S.round=0;S.res=[];S.bases=[];S.ended=false;
+  $('s1').textContent=0;$('s2').textContent=0;
+  $('ov').classList.add('off');
+  newRound();
+}
+
+$('go').onclick=start;
+$('cards').addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(b)pick(+b.dataset.p,+b.dataset.i)});
+addEventListener('keydown',e=>{
+  const k='12345'.indexOf(e.key),k2='67890'.indexOf(e.key);
+  if(k>=0)pick(0,k);else if(k2>=0)pick(1,k2);
+});
+renderRounds();
+</script>
+</body>
+</html>
